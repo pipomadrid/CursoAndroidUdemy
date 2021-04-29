@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name" translatable="false">Registro_superHeroes</string>
+    <string name="alter_ego" translatable="false">Alter ego</string>
+    <string name="power" translatable="false">Power</string>
+    <string name="bio" translatable="false">Bio</string>
+    <string name="superhero_name">Superhero name</string>
+    <string name="real_name">Real name</string>
+    <string name="bio_main" translatable="false">Bio</string>
+    <string name="power_main">Power</string>
+    <string name="short_bio_main">Short bio</string>
+    <string name="save">Save</string>
+</resources>

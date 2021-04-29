@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="alter_ego" translatable="false">Alter ego</string>
+    <string name="power" translatable="false">Poder</string>
+    <string name="superhero_name">Nombre Superhéroe</string>
+    <string name="real_name">Nombre real</string>
+    <string name="power_main">poder</string>
+    <string name="short_bio_main">Breve biografía</string>
+    <string name="save">Guardar</string>
+
+</resources>
