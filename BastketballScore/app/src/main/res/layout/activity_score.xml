@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ScoreActivity">
+
+
+    <TextView
+        android:id="@+id/tv_local_visitante"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/local_visitante"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:paddingTop="15dp"/>
+
+    <LinearLayout
+        android:id="@+id/linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_local_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="70dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            tools:text="14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-"
+            android:textColor="@color/black"
+            android:textSize="50dp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:id="@+id/tv_visitor_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="70dp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            tools:text="14" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_text_result"
+        android:paddingTop="32dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear"
+        android:gravity="center_horizontal"
+        android:textSize="30sp"
+        tools:text="Fue un empate" />
+    <ImageView
+        android:id="@+id/iv_carita"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/tv_text_result"
+        android:layout_centerHorizontal="true"/>
+
+
+</RelativeLayout>

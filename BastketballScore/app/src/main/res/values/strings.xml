@@ -6,4 +6,8 @@
     <string name="zero">0</string>
     <string name="plus_one">+1</string>
     <string name="plus_two">+2</string>
+    <string name="local_visitante">Local-Visitante</string>
+    <string name="gana_local">Ganó equipo local</string>
+    <string name="gana_visitante">Ganó equipo visitante</string>
+    <string name="empate">Los equipos han empatado</string>
 </resources>
