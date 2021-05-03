@@ -1,5 +1,6 @@
 package com.example.bastketballscore
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -24,18 +25,18 @@ private lateinit var binding:ActivityScoreBinding
         val mensaje = binding.tvTextResult
 
         val  bundle :Bundle = intent.extras!!
-        val marcador_local:String?= bundle.getString(LOCAL_SCORE_KEY)
-        val marcador_visitante:String? = bundle.getString(VISITOR_SCORE_KEY)
+        val marcador_local= bundle.getInt(LOCAL_SCORE_KEY)
+        val marcador_visitante = bundle.getInt(VISITOR_SCORE_KEY)
 
-        val marcador_local_int = marcador_local!!.toInt()
-        val marcador_visitante_int = marcador_visitante!!.toInt()
 
-        binding.tvLocalScore.text = Editable.Factory.getInstance().newEditable(marcador_local)
-        binding.tvVisitorScore.text = Editable.Factory.getInstance().newEditable(marcador_visitante)
-        comprobarResultado(imagen,mensaje,marcador_local_int,marcador_visitante_int)
+
+        binding.tvLocalScore.text = marcador_local.toString()
+        binding.tvVisitorScore.text = marcador_visitante.toString()
+        comprobarResultado(imagen,mensaje,marcador_local,marcador_visitante)
     }
 
-    fun comprobarResultado(Imagen :ImageView,mensaje:TextView,marcador1:Int,marcador2:Int) {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    fun comprobarResultado(Imagen :ImageView, mensaje:TextView, marcador1:Int, marcador2:Int) {
 
         if(marcador1 > marcador2) {
             mensaje.text = getString(R.string.gana_local)
