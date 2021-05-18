@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.bastketballscore.ScoreActivity.Companion.LOCAL_SCORE_KEY
 import com.example.bastketballscore.ScoreActivity.Companion.VISITOR_SCORE_KEY
@@ -24,6 +25,16 @@ class MainActivity : AppCompatActivity() {
 
         viewModel= ViewModelProvider(this).get(MainViewModel::class.java)
 
+        viewModel.localScore.observe(this, Observer {
+            localScoreValue:Int ->
+            binding.scoreTeam1.text = localScoreValue.toString()
+
+        })
+        viewModel.visitorScore.observe(this, Observer {
+            visitorScoreValue:Int ->
+            binding.scoreTeam2.text = visitorScoreValue.toString()
+
+        })
         //team1
         val bt_restar1_team1 = binding.btRest1
         val bt_sumar1_team1 = binding.btSum1Team1
@@ -84,23 +95,23 @@ class MainActivity : AppCompatActivity() {
 
     fun sum(puntos:Int, isLocal:Boolean){
         viewModel.sum(puntos,isLocal)
-        if(isLocal){
+        /*if(isLocal){
             binding.scoreTeam1.text= viewModel.localScore.toString()
 
         }else
             binding.scoreTeam2.text= viewModel.visitorScore.toString()
 //        val resultado = scoreTeam.text.toString().toInt() + puntos
-//        scoreTeam.text = resultado.toString()
+//        scoreTeam.text = resultado.toString()*/
 
     }
     //Funcion restar
 
     fun rest(isLocal:Boolean){
         viewModel.rest(isLocal)
-        if(isLocal ){
+       /* if(isLocal ){
             binding.scoreTeam1.text= viewModel.localScore.toString()
         }else
-            binding.scoreTeam2.text= viewModel.visitorScore.toString()
+            binding.scoreTeam2.text= viewModel.visitorScore.toString()*/
 
     }
     //funcion reset marcadores
@@ -109,8 +120,8 @@ class MainActivity : AppCompatActivity() {
 //        localScore = 0 // pasadas a viewmodel
 //        visitorScore=0
        viewModel.reset_scores()
-        binding.scoreTeam1.text= viewModel.localScore.toString()
-        binding.scoreTeam2.text= viewModel.visitorScore.toString()
+        //binding.scoreTeam1.text= viewModel.localScore.toString()
+       // binding.scoreTeam2.text= viewModel.visitorScore.toString()
 
 
     }
@@ -118,8 +129,8 @@ class MainActivity : AppCompatActivity() {
 
     fun details(){
         val intent = Intent(this,ScoreActivity::class.java)
-        intent.putExtra(LOCAL_SCORE_KEY,viewModel.localScore)
-        intent.putExtra(VISITOR_SCORE_KEY,viewModel.visitorScore)
+        intent.putExtra(LOCAL_SCORE_KEY,viewModel.localScore.value)
+        intent.putExtra(VISITOR_SCORE_KEY,viewModel.visitorScore.value)
         startActivity(intent)
     }
 
