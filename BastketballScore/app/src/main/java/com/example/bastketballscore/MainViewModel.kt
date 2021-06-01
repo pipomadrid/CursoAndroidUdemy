@@ -8,20 +8,31 @@ import androidx.lifecycle.ViewModel
 //los métodos y variables deben ser publicos para poder pasarlos al view
 class MainViewModel:ViewModel() {
 
+
+    /*
+    Los liveDate son varaibles que insertamos en el viewModel y que a su vez contienen otras
+    variables
+    Con liveData no podemos asignar valores
+    Con MutableLiveDate si podemos asignarles valores
+     */
+
+    //lo hacemos privados para encapsularlos y pasamos el resultado a
+    // livedata que no se pueden variar y estos si los dejamos publicos para poder usarlos en el Main
+
     private var _localScore:MutableLiveData<Int> = MutableLiveData()
     private var _visitorScore:MutableLiveData<Int> = MutableLiveData()
 
-    val localScore: LiveData<Int>
-        get()=_localScore
-    val visitorScore: LiveData<Int>
+    val localScoreLiveData: LiveData<Int>
+        get()=_localScore // no podemos asignar el valor pero si obtenerlos
+    val visitorScoreLiveData: LiveData<Int>
         get()= _visitorScore
 
-    init{
+    init{ //se ejecuta automaticamente cuando se crea el viewmodel, establecemos valores a 0 para evitar nulos
         reset_scores()
     }
 
     fun reset_scores() {
-        _localScore.value = 0
+        _localScore.value = 0 // para asignar valor a los mutableliveData se usa .value
         _visitorScore.value = 0
     }
 

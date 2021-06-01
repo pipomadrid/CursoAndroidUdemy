@@ -3,8 +3,6 @@ package com.example.bastketballscore
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.bastketballscore.ScoreActivity.Companion.LOCAL_SCORE_KEY
@@ -17,20 +15,26 @@ class MainActivity : AppCompatActivity() {
 //    private var visitorScore=0
 
     private lateinit var binding:ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: MainViewModel // Variable qu vamos a usar para crear el viewmodel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
+        //creamos el viewmodel  y la clase MainViewModel
         viewModel= ViewModelProvider(this).get(MainViewModel::class.java)
 
-        viewModel.localScore.observe(this, Observer {
-            localScoreValue:Int ->
-            binding.scoreTeam1.text = localScoreValue.toString()
+        // ponemos quien va  a ser el observador y el observador como argumentos
+        // Cuando observe que localscore cambió  va a llamar a la función lambda y este va a traer
+        // el valor de localscore
+        viewModel.localScoreLiveData.observe(this, Observer {
+            localScoreValue:Int -> // no trae el mutableLiveDate si no el valor Int que corresponde al mutableLiveData
+            binding.scoreTeam1.text = localScoreValue.toString() //asignamos el valor obtenido al textview correspondiente
 
         })
-        viewModel.visitorScore.observe(this, Observer {
+        viewModel.visitorScoreLiveData.observe(this, Observer {
             visitorScoreValue:Int ->
             binding.scoreTeam2.text = visitorScoreValue.toString()
 
@@ -94,7 +98,7 @@ class MainActivity : AppCompatActivity() {
     //Funcion sumar
 
     fun sum(puntos:Int, isLocal:Boolean){
-        viewModel.sum(puntos,isLocal)
+        viewModel.sum(puntos,isLocal) // con viewmodel usamos en método que está en la clase MainViewModel
         /*if(isLocal){
             binding.scoreTeam1.text= viewModel.localScore.toString()
 
@@ -129,8 +133,8 @@ class MainActivity : AppCompatActivity() {
 
     fun details(){
         val intent = Intent(this,ScoreActivity::class.java)
-        intent.putExtra(LOCAL_SCORE_KEY,viewModel.localScore.value)
-        intent.putExtra(VISITOR_SCORE_KEY,viewModel.visitorScore.value)
+        intent.putExtra(LOCAL_SCORE_KEY,viewModel.localScoreLiveData.value)
+        intent.putExtra(VISITOR_SCORE_KEY,viewModel.visitorScoreLiveData.value)
         startActivity(intent)
     }
 

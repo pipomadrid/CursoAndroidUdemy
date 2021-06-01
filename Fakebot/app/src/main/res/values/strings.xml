@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Fake bot</string>
+    <string name="no_mensaje">No hay mensajes todavía</string>
+</resources>
