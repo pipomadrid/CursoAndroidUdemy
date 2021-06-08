@@ -18,10 +18,13 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // creamos una variable viewmodel para poder usar los métodos de la clase omónima
         val viewModel:MainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         val recyclerView = binding.eqRecycler
 
 
+        // creamos el observador para el livedata eqList que nos proporcionará la lista de datos que
+        // pasaremos al recycler
         viewModel.eqList.observe(this, Observer {
 
             val adapter = EqAdapter(this,it)
@@ -33,6 +36,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    // método que maneja como se comorta el view cuando la lista está vacia
     private fun handleEmptyView(it: MutableList<Earthquake>, binding:  ActivityMainBinding) {
         if (it.isEmpty()) {
             binding.eqEmptyView.visibility = View.VISIBLE
