@@ -1,13 +1,13 @@
-package com.pedrosaez.earthquakemonitor
+package com.pedrosaez.earthquakemonitor.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.pedrosaez.earthquakemonitor.Earthquake
+import com.pedrosaez.earthquakemonitor.EqAdapter
 import com.pedrosaez.earthquakemonitor.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // creamos una variable viewmodel para poder usar los métodos de la clase omónima
-        val viewModel:MainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        val viewModel: MainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         val recyclerView = binding.eqRecycler
 
 

@@ -1,4 +1,4 @@
-package com.pedrosaez.earthquakemonitor
+package com.pedrosaez.earthquakemonitor.main
 
 import android.content.Context
 import android.util.Log
@@ -10,6 +10,8 @@ import android.widget.ListAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.pedrosaez.earthquakemonitor.Earthquake
+import com.pedrosaez.earthquakemonitor.R
 import com.pedrosaez.earthquakemonitor.databinding.EqListItemBinding
 
 private val TAG = EqAdapter::class.java.simpleName
@@ -37,7 +39,7 @@ class EqAdapter(private val context:Context, private val dataset:List<Earthquake
     inner class EqViewHolder(private val binding: EqListItemBinding) : RecyclerView.ViewHolder(binding.root){
 
         fun bind(earthquake: Earthquake){
-            binding.eqMagnitudeText.text = earthquake.magnitude.toString()
+            binding.eqMagnitudeText.text = context.getString(R.string.magnitude_format, earthquake.magnitude)
             binding.eqPlaceText.text = earthquake.place
             binding.root.setOnClickListener {
                 if(::onItemClickListener.isInitialized) {
