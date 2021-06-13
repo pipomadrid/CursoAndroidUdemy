@@ -1,5 +1,6 @@
 package com.pedrosaez.earthquakemonitor.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.pedrosaez.earthquakemonitor.Earthquake
 
@@ -15,7 +16,7 @@ interface EqDao {
 
     //Con @Query  introducimos una consulta que en este caso nos devolverá todos los terremotos
     @Query("SELECT * FROM earthquakes")
-    fun getEarthQuakes() : MutableList<Earthquake>
+    fun getEarthQuakes() : LiveData<MutableList<Earthquake>>
 
     @Query("SELECT * FROM earthquakes WHERE magnitude > :magnitude") //magnitude se refiere a
     // la de la data class y :magnitude al del método  getEarthQuakesWithMagnitude

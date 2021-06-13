@@ -1,31 +1,36 @@
 package com.pedrosaez.earthquakemonitor.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.app.Application
+import android.util.Log
+import androidx.lifecycle.*
 import com.pedrosaez.earthquakemonitor.Earthquake
+import com.pedrosaez.earthquakemonitor.database.getDatabase
 import kotlinx.coroutines.*
+import java.net.UnknownHostException
 
-class MainViewModel : ViewModel() {
+
+private  val TAG = MainViewModel::class.java.simpleName
+class MainViewModel(application: Application): AndroidViewModel(application) {
 
     /*private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
 */
 
-    // creamos el mutable livedata que usaremois solo en esta clase y por eso es privado
-    private var _eqList = MutableLiveData<MutableList<Earthquake>>()
+    private val database = getDatabase(application.applicationContext)
+    private var repository = MainRepository(database)
 
-    // creamos el livedata que podrán usarlo otras clases pero que al no ser mutable no se puede modificar
-    val eqList: LiveData<MutableList<Earthquake>>
-        get() = _eqList // le damos el valor de la mutablelist
-
-    private var repository = MainRepository()
+    val eqList = repository.eqList
     //se ejecuta automáticamente al crear el viewmodel
     init {
         // creamos una corrutina ligada al viewmodel
         viewModelScope.launch {
-            _eqList.value = repository.fetchEarthquakes()
+
+            try {
+                repository.fetchEarthquakes()
+            }catch (e :UnknownHostException){
+                Log.d(TAG, "No internet connection", e)
+
+            }
         }
     }
 

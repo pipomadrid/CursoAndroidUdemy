@@ -1,15 +1,19 @@
 package com.pedrosaez.earthquakemonitor.main
 
+import androidx.lifecycle.LiveData
 import com.pedrosaez.earthquakemonitor.Earthquake
 import com.pedrosaez.earthquakemonitor.api.EqJsonResponse
 import com.pedrosaez.earthquakemonitor.api.service
+import com.pedrosaez.earthquakemonitor.database.EqDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class MainRepository {
+class MainRepository(private val database: EqDatabase ) {
+
+    val  eqList : LiveData<MutableList<Earthquake>> = database.eqDao.getEarthQuakes()
 
 
-     suspend fun fetchEarthquakes(): MutableList<Earthquake>? {
+     suspend fun fetchEarthquakes() {
         //usamos  el contexto IO para hacer el trabajo pesado y no interrumpir el main
         return withContext(Dispatchers.IO) {
             // val eqListString:String = service.getLastHourEarthquakes() // aqui estamos llamando al
@@ -18,8 +22,10 @@ class MainRepository {
             val eqJsonResponse= service.getLastHourEarthquakes()  //para usar en  moshi
             val eqList =parseEqResult(eqJsonResponse)
 
+            database.eqDao.insertAll(eqList)
+
             //val eqList =parseEqResult(eqListString)
-            eqList
+
 
         }
     }
