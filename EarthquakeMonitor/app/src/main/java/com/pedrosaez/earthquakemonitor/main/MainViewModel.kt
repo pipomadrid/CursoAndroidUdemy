@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.*
 import com.pedrosaez.earthquakemonitor.Earthquake
+import com.pedrosaez.earthquakemonitor.api.ApiResponseStatus
 import com.pedrosaez.earthquakemonitor.database.getDatabase
 import kotlinx.coroutines.*
 import java.net.UnknownHostException
@@ -19,26 +20,39 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     private val database = getDatabase(application.applicationContext)
     private var repository = MainRepository(database)
 
-    val eqList = repository.eqList
+    private val _status = MutableLiveData<ApiResponseStatus>()
+    val status: LiveData<ApiResponseStatus>
+        get()= _status
+
+    private var _eqList = MutableLiveData<MutableList<Earthquake>>()
+    val eqList : LiveData<MutableList<Earthquake>>
+        get()= _eqList
+
     //se ejecuta automáticamente al crear el viewmodel
     init {
-        // creamos una corrutina ligada al viewmodel
-        viewModelScope.launch {
-
-            try {
-                repository.fetchEarthquakes()
-            }catch (e :UnknownHostException){
-                Log.d(TAG, "No internet connection", e)
-
-            }
-        }
+        realoadEarthquakes(false)
     }
 
+     private fun realoadEarthquakes(sortByMagnitude :Boolean) {
+         viewModelScope.launch {
+             try {
+                 _status.value = ApiResponseStatus.LOADING
+                 _eqList.value = repository.fetchEarthquakes(sortByMagnitude)
+                 _status.value = ApiResponseStatus.DONE
+             } catch (e: UnknownHostException) {
+                 _status.value = ApiResponseStatus.NOT_INTERNET_CONNECTION
+                 Log.d(TAG, "No internet connection", e)
 
+             }
+         }
+    }
+    fun realoadEarthquakesFromDatabase(sortByMagnitude :Boolean){
+        viewModelScope.launch {
+                _eqList.value = repository.fetchEarthquakesFromDb(sortByMagnitude)
 
+        }
 
-
-
+    }
 
 
 }

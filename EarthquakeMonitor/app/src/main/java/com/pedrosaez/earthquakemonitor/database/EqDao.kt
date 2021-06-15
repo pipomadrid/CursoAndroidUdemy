@@ -16,11 +16,14 @@ interface EqDao {
 
     //Con @Query  introducimos una consulta que en este caso nos devolverá todos los terremotos
     @Query("SELECT * FROM earthquakes")
-    fun getEarthQuakes() : LiveData<MutableList<Earthquake>>
+    fun getEarthQuakes() : MutableList<Earthquake>
 
     @Query("SELECT * FROM earthquakes WHERE magnitude > :magnitude") //magnitude se refiere a
     // la de la data class y :magnitude al del método  getEarthQuakesWithMagnitude
     fun getEarthQuakesWithMagnitude(magnitude:Double) : MutableList<Earthquake>
+
+    @Query ("SELECT * FROM earthquakes order by magnitude ASC")
+    fun getEarthquakesByMagnitude():MutableList<Earthquake>
 
 
     @Update

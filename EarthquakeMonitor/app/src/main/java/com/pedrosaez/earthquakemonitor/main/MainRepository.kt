@@ -10,26 +10,29 @@ import kotlinx.coroutines.withContext
 
 class MainRepository(private val database: EqDatabase ) {
 
-    val  eqList : LiveData<MutableList<Earthquake>> = database.eqDao.getEarthQuakes()
-
-
-     suspend fun fetchEarthquakes() {
+     suspend fun fetchEarthquakes(sortByMagnitude :Boolean) : MutableList<Earthquake> {
         //usamos  el contexto IO para hacer el trabajo pesado y no interrumpir el main
         return withContext(Dispatchers.IO) {
             // val eqListString:String = service.getLastHourEarthquakes() // aqui estamos llamando al
             // servicio de retrofit para traer los datos
-
             val eqJsonResponse= service.getLastHourEarthquakes()  //para usar en  moshi
             val eqList =parseEqResult(eqJsonResponse)
 
             database.eqDao.insertAll(eqList)
-
+            fetchEarthquakesFromDb(sortByMagnitude)
             //val eqList =parseEqResult(eqListString)
-
-
         }
     }
 
+    suspend fun fetchEarthquakesFromDb(sortByMagnitude :Boolean):MutableList<Earthquake> {
+        return withContext(Dispatchers.IO) {
+            if (sortByMagnitude) {
+                database.eqDao.getEarthquakesByMagnitude()
+            } else {
+                database.eqDao.getEarthQuakes()
+            }
+        }
+    }
     private fun parseEqResult(eqJsonResponse: EqJsonResponse): MutableList<Earthquake> {
 
         //creamos lista vacia para ir agregando terremotos

@@ -2,4 +2,9 @@
     <string name="app_name">Earthquake Monitor</string>
     <string name="eq_empty_list">No eartquakes rigth now</string>
     <string name="magnitude_format">%.2f</string>
+    <string name="richter">Richter</string>
+    <string name="longitude">Longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="sort_by_magnitude">Sort by magnitude</string>
+    <string name="sort_by_time">Sort by time</string>
 </resources>
