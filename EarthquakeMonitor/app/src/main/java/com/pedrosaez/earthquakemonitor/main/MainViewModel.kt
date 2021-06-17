@@ -11,7 +11,7 @@ import java.net.UnknownHostException
 
 
 private  val TAG = MainViewModel::class.java.simpleName
-class MainViewModel(application: Application): AndroidViewModel(application) {
+class MainViewModel(application: Application, private val sortType:Boolean): AndroidViewModel(application) {
 
     /*private val job = Job()
     private val coroutineScope = CoroutineScope(Dispatchers.Main + job)
@@ -30,14 +30,14 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
 
     //se ejecuta automáticamente al crear el viewmodel
     init {
-        realoadEarthquakes(false)
+       realoadEarthquakesFromDatabase(sortType)
     }
 
-     private fun realoadEarthquakes(sortByMagnitude :Boolean) {
+     private fun realoadEarthquakes() {
          viewModelScope.launch {
              try {
                  _status.value = ApiResponseStatus.LOADING
-                 _eqList.value = repository.fetchEarthquakes(sortByMagnitude)
+                 _eqList.value = repository.fetchEarthquakes(sortType)
                  _status.value = ApiResponseStatus.DONE
              } catch (e: UnknownHostException) {
                  _status.value = ApiResponseStatus.NOT_INTERNET_CONNECTION
@@ -49,7 +49,9 @@ class MainViewModel(application: Application): AndroidViewModel(application) {
     fun realoadEarthquakesFromDatabase(sortByMagnitude :Boolean){
         viewModelScope.launch {
                 _eqList.value = repository.fetchEarthquakesFromDb(sortByMagnitude)
-
+            if( _eqList.value!!.isEmpty()){
+                realoadEarthquakes()
+            }
         }
 
     }
