@@ -22,8 +22,10 @@ class PokemonAdapter :ListAdapter<Pokemon, PokemonAdapter.ViewHolder>(DiffCallba
         }
     }
 
+    lateinit var onItemClickListener: (Pokemon) -> Unit
 
-    class ViewHolder(view: View):RecyclerView.ViewHolder(view) {
+
+    inner class ViewHolder(val view: View):RecyclerView.ViewHolder(view) {
         private val idText = view.findViewById<TextView>(R.id.pokemon_list_item_id_textView)
         private val nameText = view.findViewById<TextView>(R.id.pokemon_list_item_name_textView)
         private val typeImage  = view.findViewById<ImageView>(R.id.pokemon_list_item_type_image)
@@ -38,6 +40,12 @@ class PokemonAdapter :ListAdapter<Pokemon, PokemonAdapter.ViewHolder>(DiffCallba
                 Pokemon.PokemonType.ELECTRIC -> R.drawable.electric
             }
             typeImage.setImageResource(imageId)
+
+            view.setOnClickListener {
+                if (::onItemClickListener.isInitialized) {
+                    onItemClickListener(pokemon)
+                }
+            }
         }
 
     }
