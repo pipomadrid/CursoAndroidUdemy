@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">FireBaseTutorial</string>
+    <string name="prefs_file">com.pedrosaez.firebasetutorial.PREFERENCE_FILE_KEY</string>
+</resources>
